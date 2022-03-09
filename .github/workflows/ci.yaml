@@ -12,7 +12,6 @@ jobs:
           - arch: aarch64
             distro: ubuntu20.04
     steps:
-    - uses: uraimo/run-on-arch-action@v2.1.1
     - name: Checkout
       id: checkout
       uses: actions/checkout@v2
@@ -26,6 +25,7 @@ jobs:
     - name: echo settings
       id: echo_settings
       run: "echo platform: ${{ steps.random_platform.outputs.PLATFORM }} version: ${{ steps.get_version.outputs.VERSION }}" 
+    - uses: uraimo/run-on-arch-action@v2.1.1
     - name: Build and test amazon 
       if: steps.get_version.outputs.VERSION || github.event_name == 'pull_request' || steps.random_platform.outputs.PLATFORM == 'amazon' 
       env: 
@@ -34,6 +34,7 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
       run: ./build_scripts/build_amazon_platforms.sh
+    - uses: uraimo/run-on-arch-action@v2.1.1
     - name: Build and test debian 
       if: steps.get_version.outputs.VERSION || github.event_name == 'pull_request' || steps.random_platform.outputs.PLATFORM == 'debian' 
       env: 
