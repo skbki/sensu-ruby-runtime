@@ -1,6 +1,6 @@
 #!/bin/bash
 # Array with expressions
-expressions=("debian" "amazon")
+expressions=("debian")
 
 # Seed random generator
 RANDOM=$$$(date +%s)
