@@ -5,7 +5,14 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+    strategy:
+      matrix:
+        include:
+          - arch: aarch64
+            distro: ubuntu20.04
     steps:
+    - uses: uraimo/run-on-arch-action@v2
     - name: Checkout
       id: checkout
       uses: actions/checkout@v2
@@ -19,14 +26,6 @@ jobs:
     - name: echo settings
       id: echo_settings
       run: "echo platform: ${{ steps.random_platform.outputs.PLATFORM }} version: ${{ steps.get_version.outputs.VERSION }}" 
-    - name: Build and test alpine 
-      if: steps.get_version.outputs.VERSION || github.event_name == 'pull_request' || steps.random_platform.outputs.PLATFORM == 'alpine' 
-      env: 
-        TAG: ${{ steps.get_version.outputs.VERSION }}
-        REPO_SLUG: ${{ github.repository }}  
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-      run: ./build_scripts/build_alpine_platforms.sh
     - name: Build and test amazon 
       if: steps.get_version.outputs.VERSION || github.event_name == 'pull_request' || steps.random_platform.outputs.PLATFORM == 'amazon' 
       env: 
@@ -43,14 +42,6 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
       run: ./build_scripts/build_debian_platforms.sh
-    - name: Build and test centos 
-      if: steps.get_version.outputs.VERSION || github.event_name == 'pull_request' || steps.random_platform.outputs.PLATFORM == 'centos' 
-      env: 
-        TAG: ${{ steps.get_version.outputs.VERSION }}
-        REPO_SLUG: ${{ github.repository }}  
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-      run: ./build_scripts/build_centos_platforms.sh
     - name: create checksum file
       run: ./checksum.sh 
     - name: Release tagged version
