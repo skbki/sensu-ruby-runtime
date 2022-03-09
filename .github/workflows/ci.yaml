@@ -33,7 +33,6 @@ jobs:
         distro: ${{ matrix.distro }}
         githubToken: ${{ github.token }}
         env: |
-          TAG: ${{ steps.get_version.outputs.VERSION }}
           REPO_SLUG: ${{ github.repository }}  
         run: ./build_scripts/build_debian_platforms.sh
     - name: create checksum file
