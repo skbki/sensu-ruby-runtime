@@ -12,7 +12,7 @@ jobs:
           - arch: aarch64
             distro: ubuntu20.04
     steps:
-    - uses: uraimo/run-on-arch-action@v2
+    - uses: uraimo/run-on-arch-action@v2.1.1
     - name: Checkout
       id: checkout
       uses: actions/checkout@v2
