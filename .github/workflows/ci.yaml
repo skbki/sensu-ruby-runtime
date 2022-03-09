@@ -33,7 +33,14 @@ jobs:
         distro: ${{ matrix.distro }}
         githubToken: ${{ github.token }}
         env: |
-          REPO_SLUG: ${{ github.repository }}  
+          REPO_SLUG: ${{ github.repository }}
+        install: |
+          case "${{ matrix.distro }}" in
+            ubuntu*|jessie|stretch|buster|bullseye)
+              apt-get update -q -y
+              apt-get install -q -y docker.io
+              ;;
+          esac
         run: ./build_scripts/build_debian_platforms.sh
     - name: create checksum file
       run: ./checksum.sh 
