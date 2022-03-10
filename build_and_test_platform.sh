@@ -30,6 +30,7 @@ else
     [ $ignore_errors -eq 0 ] && exit 1  
   fi
     echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz"
+    mkdir -p "$PWD/dist"
     docker run -v "$PWD/dist:/dist" ${asset_image} cp /assets/${asset_filename} /dist/
 fi
 
