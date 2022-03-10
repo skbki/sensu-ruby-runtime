@@ -19,7 +19,7 @@ if [ -f "$PWD/dist/${asset_filename}" ]; then
   [ $ignore_errors -eq 0 ] && exit 1  
 else
   echo "Check for docker image: ${asset_image}"
-  if [[ "$(docker images -q ${asset_image} 2> /dev/null)" == "" ]]; then
+  if [[ "$(docker pull ${asset_image} ; docker images -q ${asset_image} 2> /dev/null)" == "" ]]; then
     echo "Docker image not found...we can build"
     echo "Building Docker Image: sensu-ruby-runtime:${ruby_version}-${platform}"
     DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --cache-from=type=gha --cache-to=type=gha --output=type=registry --platform "linux/arm64" --build-arg "RUBY_VERSION=$ruby_version" --build-arg "ASSET_VERSION=$asset_version" -t ${asset_image} -f Dockerfile.${platform} .
