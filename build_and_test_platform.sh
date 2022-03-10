@@ -4,7 +4,7 @@ ignore_errors=0
 ruby_version=2.4.4
 asset_version=${TAG:-local-build}
 asset_filename=sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz
-asset_image=sensu-ruby-runtime-${ruby_version}-${platform}:${asset_version}
+asset_image=ghcr.io/skbki/sensu-ruby-runtime-${ruby_version}-${platform}:${asset_version}
 
 
 if [ "${asset_version}" = "local-build" ]; then
@@ -22,7 +22,7 @@ else
   if [[ "$(docker images -q ${asset_image} 2> /dev/null)" == "" ]]; then
     echo "Docker image not found...we can build"
     echo "Building Docker Image: sensu-ruby-runtime:${ruby_version}-${platform}"
-    DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --load --platform "linux/arm64" --build-arg "RUBY_VERSION=$ruby_version" --build-arg "ASSET_VERSION=$asset_version" -t ${asset_image} -f Dockerfile.${platform} .
+    DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --push --platform "linux/arm64" --build-arg "RUBY_VERSION=$ruby_version" --build-arg "ASSET_VERSION=$asset_version" -t ${asset_image} -f Dockerfile.${platform} .
     echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz"
     docker run -v "$PWD/dist:/dist" ${asset_image} cp /assets/${asset_filename} /dist/
   #    #rm $PWD/test/*
