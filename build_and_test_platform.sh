@@ -23,14 +23,14 @@ else
     echo "Docker image not found...we can build"
     echo "Building Docker Image: sensu-ruby-runtime:${ruby_version}-${platform}"
     DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --cache-from=type=gha --cache-to=type=gha --output=type=registry --platform "linux/arm64" --build-arg "RUBY_VERSION=$ruby_version" --build-arg "ASSET_VERSION=$asset_version" -t ${asset_image} -f Dockerfile.${platform} .
-    echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz"
-    docker run -v "$PWD/dist:/dist" ${asset_image} cp /assets/${asset_filename} /dist/
   #    #rm $PWD/test/*
   #    #cp $PWD/dist/${asset_filename} $PWD/dist/${asset_filename}
   else
     echo "Image already exists!!!"
     [ $ignore_errors -eq 0 ] && exit 1  
   fi
+    echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz"
+    docker run -v "$PWD/dist:/dist" ${asset_image} cp /assets/${asset_filename} /dist/
 fi
 
 ls -lash /dist/
