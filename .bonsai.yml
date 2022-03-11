@@ -2,10 +2,10 @@
 description: "#{repo}"
 builds:
 - platform: "debian"
-  arch: "aarch64"
-  asset_filename: "#{repo}_#{version}_ruby-2.4.4_debian_linux_aarch64.tar.gz"
+  arch: "arm64"
+  asset_filename: "#{repo}_#{version}_ruby-2.4.4_debian_linux_arm64.tar.gz"
   sha_filename: "#{repo}_#{version}_sha512-checksums.txt"
   filter:
   -  "entity.system.os == 'linux'"
-  -  "entity.system.arch == 'aarch64'"
+  -  "entity.system.arch == 'arm64'"
   -  "entity.system.platform_family == 'debian'"

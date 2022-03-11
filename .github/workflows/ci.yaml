@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: aarch64
+          - arch: arm64
             distro: ubuntu20.04
     steps:
       - name: Checkout

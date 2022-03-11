@@ -3,7 +3,7 @@
 ignore_errors=0
 ruby_version=2.4.4
 asset_version=${TAG:-local-build}
-asset_filename=sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz
+asset_filename=sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_arm64.tar.gz
 asset_image=ghcr.io/skbki/sensu-ruby-runtime-${ruby_version}-${platform}:${asset_version}
 
 
@@ -27,10 +27,10 @@ else
   #    #cp $PWD/dist/${asset_filename} $PWD/dist/${asset_filename}
   else
     echo "Image already exists!!!"
-    echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_aarch64.tar.gz"
+  fi
+    echo "Making Asset: /assets/sensu-ruby-runtime_${asset_version}_ruby-${ruby_version}_${platform}_linux_arm64.tar.gz"
     mkdir -p "$PWD/dist"
     docker run -v "$PWD/dist:/dist" ${asset_image} cp /assets/${asset_filename} /dist/
-  fi
 fi
 
 test_arr=($test_platforms)
